@@ -69,11 +69,11 @@ int main()
         for(int chunk=0; chunk<testRd.chunks; chunk++)
         {
             Chunk chnk;
-            fread(&testRd, sizeof(chnk), 1, infile);
+            fread(&chnk, sizeof(chnk), 1, infile);
             printf("Chunk %d:%s", chunk, chnk.data);
         }
     }
-    printf("Name: %s, Description: %s \nVersion: %d", read_struct.name,
+    printf("Name: %s, Description: %s \nVersion: %d\n", read_struct.name,
            read_struct.description, read_struct.version);
   
     return 0;
