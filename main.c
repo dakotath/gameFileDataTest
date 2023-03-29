@@ -12,7 +12,7 @@ typedef unsigned int uint16_t;
 typedef long uint32_t;
 typedef unsigned long uint64_t;
 
-uint8_t chunkSize = 1024;
+const uint8_t chunkSize = 1024;
 
 struct test {
     int version;
@@ -25,9 +25,10 @@ struct fileData {
     uint32_t chunks;
     char fname[32];
 };
-struct Chunk {
-    char data[chunkSize];
-} Chunk;
+struct Chk {
+    char data[1024];
+};
+typedef struct Chk Chunk;
 
 int main()
 {
@@ -54,7 +55,7 @@ int main()
            infile);
     
     // Write chunk data
-    fwrite(&fdat, sizeof(fdat), 1,
+    fwrite(&testChunk, sizeof(testChunk), 1,
            infile);
     
     rewind(infile);
@@ -64,13 +65,13 @@ int main()
     for(int f=0; f<read_struct.textures; f++)
     {
         fread(&testRd, sizeof(testRd), 1, infile);
+        printf("File name:%s\n", testRd.fname);
         for(int chunk=0; chunk<testRd.chunks; chunk++)
         {
             Chunk chnk;
             fread(&testRd, sizeof(chnk), 1, infile);
             printf("Chunk %d:%s", chunk, chnk.data);
         }
-        printf("File name:%s\nData: %s\n", testRd.fname, testRd.data);
     }
     printf("Name: %s, Description: %s \nVersion: %d", read_struct.name,
            read_struct.description, read_struct.version);
